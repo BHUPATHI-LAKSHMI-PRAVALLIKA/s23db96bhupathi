@@ -1,0 +1,24 @@
+extends layout
+block content
+  h1= title
+  p Welcome to the #{title} page.
+  -
+    const image_names = [
+      "Iphone.jpg",
+      "Ipad.jpg",
+      "Macbook.jpg",
+      "Ipod.jpg",
+      "Airpods.jpg"
+    ];
+
+  -
+    const num = 3;
+    const selectedImages = [];
+    for(let i = 0; i < num; i++) {
+        const randomValue = Math.floor(Math.random() * image_names.length)
+        const selectedImage = image_names[randomValue]
+        selectedImages.push(selectedImage)
+    };
+
+  each image in selectedImages
+    img(src=`/images/${image}`,alt=`${image}`,height='300',width='300')
