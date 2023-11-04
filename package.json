@@ -1,9 +1,9 @@
 {
-  "name": "f23wabhupathi",
+  "name": "s23db96bhupathi",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -14,6 +14,13 @@
     "mongodb": "^6.2.0",
     "mongoose": "^8.0.0",
     "morgan": "^1.10.0",
+    "nodemon": "^3.0.1",
     "pug": "^3.0.2"
-  }
+  },
+  "description": "",
+  "main": "./bin/www",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
