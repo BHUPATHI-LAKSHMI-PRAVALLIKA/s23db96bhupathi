@@ -6,6 +6,7 @@ var logger = require("morgan");
 const mongoose = require("mongoose");
 var Costume = require("./models/costume");
 var resourceRouter = require("./routes/resource");
+var costumeRouter = require("./routes/costumes")
 async function recreateDB() {
   // Delete everything
   await Costume.deleteMany();
@@ -110,6 +111,7 @@ app.use("/product", productRouter);
 app.use("/board", boardRouter);
 app.use("/choose", chooseRouter);
 app.use("/resource",resourceRouter);
+app.use("/costumes",costumeRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
