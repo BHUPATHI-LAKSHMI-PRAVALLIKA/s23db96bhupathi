@@ -4,33 +4,33 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
-var Costume = require("./models/costume");
+var Product = require("./models/product");
 var resourceRouter = require("./routes/resource");
-var costumeRouter = require("./routes/costumes")
+var productsRouter = require('./routes/products');
 async function recreateDB() {
   // Delete everything
-  await Costume.deleteMany();
-  let costume1 = new Costume({
-    costume_type: "ghost",
-    size: "large",
-    cost: 15.4,
+  await Product.deleteMany();
+  let product1 = new Product({
+    product_type: "IPHONE 14",
+    feature: "better camera",
+    cost: 815.4,
   });
 
-  let costume2 = new Costume({
-    costume_type: "witch",
-    size: "medium",
-    cost: 13.5,
+  let product2 = new Product({
+    product_type: "Mac Book",
+    feature: "retina display",
+    cost: 913.5,
   });
 
-  let costume3 = new Costume({
-    costume_type: "demon",
-    size: "extra large",
-    cost: 11.5,
+  let product3 = new Product({
+    product_type: "Google pixel",
+    feature: "4k capable front camera",
+    cost: 710.5,
   });
 
 
 
-  costume1
+  product1
     .save()
     .then((doc) => {
       console.log("First object saved");
@@ -39,7 +39,7 @@ async function recreateDB() {
       console.error(err);
     });
 
-    costume2
+    product2
     .save()
     .then((doc) => {
       console.log("Second object saved");
@@ -48,7 +48,7 @@ async function recreateDB() {
       console.error(err);
     });
 
-    costume3
+    product3
     .save()
     .then((doc) => {
       console.log("Third object saved");
@@ -111,7 +111,7 @@ app.use("/product", productRouter);
 app.use("/board", boardRouter);
 app.use("/choose", chooseRouter);
 app.use("/resource",resourceRouter);
-app.use("/costumes",costumeRouter);
+app.use("/products",productsRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
