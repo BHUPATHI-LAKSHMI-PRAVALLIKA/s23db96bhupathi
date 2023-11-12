@@ -4,4 +4,4 @@ product_type: String,
 feature: String,
 cost: Number
 })
-module.exports = mongoose.model("Product",productSchema)
+module.exports = mongoose.model("Product",productSchema);
