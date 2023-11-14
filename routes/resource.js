@@ -17,5 +17,7 @@ router.put("/products/:id", product_controller.product_update_put);
 router.get("/products/:id", product_controller.product_detail);
 // GET request for list of all product items.
 router.get("/products", product_controller.product_list);
+
+
 module.exports = router;
 

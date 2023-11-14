@@ -1,0 +1,38 @@
+extends layout
+block content
+  h1= title
+  - 
+    let productid = toShow._id
+  - 
+    let product_type = toShow.product_type
+  - 
+    let productfeature = toShow.feature
+  - 
+    let productcost = toShow.cost
+  style.
+    .productAttr {
+      background-color: aquamarine;
+      width: 120px;
+    }
+
+  div
+    div.row
+      div(class='productAttr mr-3') product ID:
+      div #{productid}
+    div.row
+      div(class='productAttr mr-3') product Type:
+      div #{product_type}
+    div.row
+      div(class='productAttr mr-3') product Feature:
+      div #{productfeature}
+    div.row
+      div(class='productAttr mr-3') product Cost:
+      div #{productcost}
+
+
+
+
+
+
+
+
