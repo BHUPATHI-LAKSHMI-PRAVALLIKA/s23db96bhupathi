@@ -75,11 +75,11 @@ async function recreateDB() {
     .catch((err) => {
       console.error(err);
     });
-}
-let reseed = true;
-if (reseed) {
-  recreateDB();
-}
+ }
+ let reseed = true;
+ if (reseed) {
+   recreateDB();
+ }
 
 var app = express();
 app.use(express.static("public"));

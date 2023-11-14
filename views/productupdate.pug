@@ -1,0 +1,50 @@
+extends layout
+block content
+  h1= title
+  - 
+    let productid = toShow._id
+  - 
+    let product_type = toShow.product_type
+  - 
+    let productfeature = toShow.feature
+  - 
+    let productcost = toShow.cost
+  div.row(class='mb-2')
+    div.mr-1 ID is
+    div #{productid}
+  - 
+    let actionid = "/resource/products/" + productid
+  form(id='ProductForm', action= actionid, method="PUT")
+    div.form-group
+      label.productAttr(for='product_type') Product type
+      input#product_type(type='text', name='product_type', value= product_type )
+    div.form-group
+       label.productAttr(for='feature') Product feature
+       input#feature(type='text', name='feature', value= productfeature )
+    div.form-group
+       label.productAttr(for='cost') Product cost
+       input#cost(type='number', step='any', name='cost', value= productcost )
+    input(type="submit")
+  script.
+    document.forms['ProductForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+    // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        if (resp.ok){
+            alert('product updated successfully')
+            document.getElementById("ProductForm").reset()
+        }
+        else{
+            alert("failed to update product")
+        }
+      }).then((body) => {
+        console.log(body);
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error )
+      });
+    });
