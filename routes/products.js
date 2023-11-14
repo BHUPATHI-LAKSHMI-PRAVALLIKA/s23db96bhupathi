@@ -8,4 +8,7 @@ router.get('/products/:id', product_controlers.product_detail);
 router.put('/products/:id',product_controlers.product_update_put);
 /* GET detail product page */
 router.get('/detail', product_controlers.product_view_one_Page);
+/* GET create product page */
+router.get('/create', product_controlers.product_create_Page)
 module.exports = router;
+

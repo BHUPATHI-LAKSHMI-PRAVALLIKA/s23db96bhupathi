@@ -1,0 +1,41 @@
+extends layout
+block content
+  h1= title
+  form(id='ProductForm', action="/resource/products", method="POST")
+    div.form-group
+       label.productAttr(for='product_type') Product type
+       input#product_type(type='text', name='product_type')
+       br
+    div.form-group
+       label.productAttr(for='feature') Product feature
+       input#feature(type='text', name='feature')
+       br
+    div.form-group
+       label.productAttr(for='cost') Product cost
+       input#cost(type='number',step='any', name='cost')
+       br
+       br
+    input(type="submit")
+  script.
+    document.forms['ProductForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) 
+      }).then((resp) => {
+        if (resp.ok){
+            alert('product created successfully')
+            document.getElementById("ProductForm").reset()
+        }
+        else{
+            alert("failed to create product")
+        }
+      }).then((body) => {
+        console.log(body)
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Save failed " + error )
+      });
+    });
