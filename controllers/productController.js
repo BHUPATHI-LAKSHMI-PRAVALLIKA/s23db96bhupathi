@@ -31,14 +31,17 @@ exports.product_view_all_Page = async function (req, res) {
 exports.product_detail = async function (req, res) {
   console.log("detail" + req.params.id);
   try {
-    result = await Product.findById(req.params.id);
-    res.send(result);
-  } catch (error) {
-    res.status(500);
-    res.send(`{"error": document for id ${req.params.id} not found`);
-  }
-};
-
+   const result = await Product.findById(req.params.id); 
+   if (!result) { 
+    // If result is null, handle it as not found 
+    res.status(404).send(`{"error": "Document for id ${req.params.id} not found"}`); 
+    return; 
+   } 
+   res.send(result); 
+  } catch (error) { 
+   res.status(500).send(`{"error": "${error}"}`); 
+  } 
+ };
 // Handle Product create on POST.
 exports.product_create_post = async function (req, res) {
   console.log(req.body);
@@ -70,23 +73,28 @@ exports.product_delete = async function (req, res) {
 
 // Handle Product update form on PUT.
 exports.product_update_put = async function (req, res) {
-  console.log(`update on id ${req.params.id} with body
-${JSON.stringify(req.body)}`);
-  try {
-    let toUpdate = await Product.findById(req.params.id);
-    // Do updates of properties
-    if (req.body.product_type) toUpdate.product_type = req.body.product_type;
-    if (req.body.cost) toUpdate.cost = req.body.cost;
-    if (req.body.feature) toUpdate.feature = req.body.feature;
-    let result = await toUpdate.save();
-    console.log("Sucess " + result);
-    res.send(result);
-  } catch (err) {
-    res.status(500);
-    res.send(`{"error": ${err}: Update for id ${req.params.id}
-failed`);
+  console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`);
+  try { 
+   // Check if the product with the given ID exists 
+   let toUpdate = await Product.findById(req.params.id); 
+   if (!toUpdate) { 
+    // Product not found, send a 404 Not Found response 
+    res.status(404).send(`{"error": "Product with id ${req.params.id} not found"}`); 
+    return; 
+   } 
+   // Do updates of properties 
+   if (req.body.product_type) toUpdate.product_type = req.body.product_type; 
+   if (req.body.cost) toUpdate.cost = req.body.cost; 
+   if (req.body.feature) toUpdate.feature = req.body.feature; 
+   // Save the updated product 
+   let result = await toUpdate.save(); 
+   console.log("Success " + result); 
+   res.send(result); 
+  } catch (err) { 
+   res.status(500); 
+   res.send(`{"error": ${err}: Update for id ${req.params.id} failed`); 
   }
-};
+ };
 // Handle a show one view with id specified by query
 exports.product_view_one_Page = async function (req, res) {
   console.log("single view for id " + req.query.id);

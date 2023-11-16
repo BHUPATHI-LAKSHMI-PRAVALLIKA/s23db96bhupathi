@@ -1,50 +1,60 @@
 extends layout
 block content
-  h1= title
-  - 
-    let productid = toShow._id
-  - 
-    let product_type = toShow.product_type
-  - 
-    let productfeature = toShow.feature
-  - 
-    let productcost = toShow.cost
-  div.row(class='mb-2')
-    div.mr-1 ID is
-    div #{productid}
-  - 
-    let actionid = "/resource/products/" + productid
-  form(id='ProductForm', action= actionid, method="PUT")
-    div.form-group
-      label.productAttr(for='product_type') Product type
-      input#product_type(type='text', name='product_type', value= product_type )
-    div.form-group
-       label.productAttr(for='feature') Product feature
-       input#feature(type='text', name='feature', value= productfeature )
-    div.form-group
-       label.productAttr(for='cost') Product cost
-       input#cost(type='number', step='any', name='cost', value= productcost )
-    input(type="submit")
-  script.
-    document.forms['ProductForm'].addEventListener('submit', (event) => {
+ h1.text-center= title
+ if (!toShow)
+  h2 No instance found
+ else
+  - let productid = toShow._id
+  - let product_type = toShow.product_type
+  - let productcost = toShow.cost
+  - let productfeature = toShow.feature
+  - let actionid = "/resource/products/" + productid
+  form(id='productForm', action= actionid, method="PUT")
+   .card.mx-auto.mt-5
+    .card-body.text-center
+     div.row(class='mb-2')
+      div.col-3.text-right
+       label(class='productAttr', for='productid') Product ID
+       div #{productid}
+      div.col-3.text-right
+       label(class='productAttr', for='product_type') Product Type
+       br
+       input#product_type(type='text', class='form-control', name='product_type', value= product_type)
+      div.col-3.text-right
+       label(class='productAttr', for='feature') Product feature
+       br
+       input#productfeature(type='text', class='form-control', name='feature', value= productfeature)
+      div.col-3.text-right
+       label(class='productAttr', for='cost') Product Cost
+       br
+       input#productcost(type='number', class='form-control', name='cost', value= productcost)
+       br
+       br
+      div.text-center
+       input(type="submit" class="btn btn-primary" value="Submit")
+    script.
+     document.forms['productForm'].addEventListener('submit', (event) => {
       event.preventDefault();
-    // TODO do something here to show user that form is being submitted
+      // TODO do something here to show the user that the form is being submitted
       fetch(event.target.action, {
-        method: 'PUT',
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+       method: 'PUT',
+       body: new URLSearchParams(new FormData(event.target)) // event.target is the form
       }).then((resp) => {
-        if (resp.ok){
-            alert('product updated successfully')
-            document.getElementById("ProductForm").reset()
-        }
-        else{
-            alert("failed to update product")
-        }
+       return resp.json(); // or resp.text() or whatever the server sends
       }).then((body) => {
-        console.log(body);
-        // TODO handle body
+       alert("Update succeeded");
+       // TODO handle body
       }).catch((error) => {
-        // TODO handle error
-        alert("Update failed " + error )
+       // TODO handle error
+       alert("Update failed " + error );
       });
-    });
+     });
+ style.
+  .productAttr {
+   background-color: aquamarine;
+   width: 120px;
+   margin: 0 auto;
+  }
+
+
+
