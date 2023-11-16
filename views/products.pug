@@ -1,6 +1,17 @@
-each item in theProducts
-  div
-    p Product_Type - #{item.product_type}
-    p Features  - #{item.feature}
-    p Cost - #{item.cost}
-    br
+extends layout
+block content
+ h1= title
+ - let items = results;
+   each item in items
+    - let destination = `dispatch("/products/update?id=${item._id}")`
+      div
+       p Product_Type - #{item.product_type}
+       p Feature - #{item.feature}
+       p Cost - #{item.cost}
+       button.btn( class="btn-primary ml-1", onclick= destination) Update
+       br
+       br
+ script.
+  function dispatch(path){
+   window.location.href=path
+  }
