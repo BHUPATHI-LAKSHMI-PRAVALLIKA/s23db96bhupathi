@@ -8,25 +8,6 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local").Strategy;
 var Product = require("./models/product");
 
-require("dotenv").config();
-const connectionString = process.env.MONGO_CON;
-mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-
-  .then(() => console.log("Connected to MongoDB"))
-
-  .catch((err) => console.error("Error connecting to MongoDB: ", err));
-
-var db = mongoose.connection;
-//Bind connection to error event
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-db.once("open", function () {
-  console.log("Connection to DB succeeded");
-});
-
 passport.use(
   new LocalStrategy(function (username, password, done) {
     Account.findOne({ username: username })
@@ -47,6 +28,34 @@ passport.use(
       });
   })
 );
+// passport config
+// Use the existing connection
+// The Account model
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+require("dotenv").config();
+const connectionString = process.env.MONGO_CON;
+mongoose
+  .connect(connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+
+  .then(() => console.log("Connected to MongoDB"))
+
+  .catch((err) => console.error("Error connecting to MongoDB: ", err));
+
+var db = mongoose.connection;
+//Bind connection to error event
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", function () {
+  console.log("Connection to DB succeeded");
+});
+
+
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
