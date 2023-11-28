@@ -33,7 +33,6 @@ exports.product_detail = async function (req, res) {
   try {
    const result = await Product.findById(req.params.id); 
    if (!result) { 
-    // If result is null, handle it as not found 
     res.status(404).send(`{"error": "Document for id ${req.params.id} not found"}`); 
     return; 
    } 
@@ -50,12 +49,19 @@ exports.product_create_post = async function (req, res) {
   document.feature = req.body.feature;
   document.cost = req.body.cost;
   try {
-    let result = await document.save();
-    res.send(result);
-  } catch (err) {
-    res.status(500);
-    res.send(`{"error": ${err}}`);
-  }
+    await document.save();
+    res.redirect('/products'); 
+   } catch (error) {
+    if (error.name === 'ValidationError') {
+     const errors = Object.values(error.errors).map((err) => err.message);
+     return res.status(400).render('create', {
+      title: 'Create Product',
+      errors,
+     });
+    }
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+   }
 };
 
 // Handle Product delete form on DELETE.

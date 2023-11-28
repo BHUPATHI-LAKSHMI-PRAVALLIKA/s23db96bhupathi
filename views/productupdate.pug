@@ -32,7 +32,12 @@ block content
        br
       div.text-center
        input(type="submit" class="btn btn-primary" value="Submit")
+       button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
     script.
+      function cancel() {
+        // Go back to the home page for the product collection
+        window.location.href='/products'
+      }
      document.forms['productForm'].addEventListener('submit', (event) => {
       event.preventDefault();
       // TODO do something here to show the user that the form is being submitted

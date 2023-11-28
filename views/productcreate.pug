@@ -1,44 +1,3 @@
-//- extends layout
-//- block content
-//-   h1= title
-//-   form(id='ProductForm', action="/resource/products", method="POST")
-//-     div.form-group
-//-        label.productAttr(for='product_type') Product type
-//-        input#product_type(type='text', name='product_type')
-//-        br
-//-     div.form-group
-//-        label.productAttr(for='feature') Product feature
-//-        input#feature(type='text', name='feature')
-//-        br
-//-     div.form-group
-//-        label.productAttr(for='cost') Product cost
-//-        input#cost(type='number',step='any', name='cost')
-//-        br
-//-        br
-//-     input(type="submit")
-//-   script.
-//-     document.forms['ProductForm'].addEventListener('submit', (event) => {
-//-       event.preventDefault();
-//-       // TODO do something here to show user that form is being submitted
-//-       fetch(event.target.action, {
-//-         method: 'POST',
-//-         body: new URLSearchParams(new FormData(event.target)) 
-//-       }).then((resp) => {
-//-         if (resp.ok){
-//-             alert('product created successfully')
-//-             document.getElementById("ProductForm").reset()
-//-         }
-//-         else{
-//-             alert("failed to create product")
-//-         }
-//-       }).then((body) => {
-//-         console.log(body)
-//-         // TODO handle body
-//-       }).catch((error) => {
-//-         // TODO handle error
-//-         alert("Save failed " + error )
-//-       });
-//-     });
 extends layout
 block content
  h1.text-center= title
@@ -55,14 +14,19 @@ block content
       br
       input#feature(type='text', name='feature', value="")
      div.col-3.text-right
-      label.productAttr(for='cost') Product cost:
+      label.productAttr(for='cost') Cost(0 to 10000):
       br
       input#cost(type='number', step= "any", name='cost', value="" )
       br
       br
     div.text-center
      input(type="submit" class="btn btn-primary" value="Submit")
+     button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
  script.
+  function cancel() {
+    // Go back to the home page for the product collection
+    window.location.href='/products'
+  }
   document.forms['ProductForm'].addEventListener('submit', (event) => {
    event.preventDefault();
    // TODO do something here to show user that form is being submitted
